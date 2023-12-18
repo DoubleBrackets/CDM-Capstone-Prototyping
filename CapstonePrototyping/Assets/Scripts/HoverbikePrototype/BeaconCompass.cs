@@ -20,7 +20,7 @@ public class BeaconCompass : MonoBehaviour
 
         compassTransform.localRotation = Quaternion.Lerp(
             compassTransform.localRotation,
-            Quaternion.Euler(0, 0, -angle),
+            Quaternion.Euler(0, 0, 180 + angle),
             1 - Mathf.Pow(0.01f, Time.deltaTime));
     }
 }

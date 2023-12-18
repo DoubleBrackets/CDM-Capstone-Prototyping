@@ -37,5 +37,10 @@ public class EnvironmentalObstacle : MonoBehaviour
 
         container.localRotation = rot;
         transform.position += Vector3.up * heightOffset;
+
+        if (Application.isPlaying)
+        {
+            Destroy(this);
+        }
     }
 }

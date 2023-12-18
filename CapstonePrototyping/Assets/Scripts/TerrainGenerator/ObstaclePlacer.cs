@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
+using Unity.Collections;
 using UnityEngine;
 
 public class ObstaclePlacer : MonoBehaviour
@@ -12,15 +14,42 @@ public class ObstaclePlacer : MonoBehaviour
     [SerializeField]
     private List<EnvironmentSpawnGroup> spawnGroups;
 
-    private void Awake()
+    [SerializeField]
+    private bool spawn;
+
+    [SerializeField]
+    private Transform batchRoot;
+
+    [SerializeField]
+    private bool staticBatch;
+
+    [ReadOnly]
+    public int instanced;
+
+    private async void Awake()
+    {
+        if (!spawn)
+        {
+            return;
+        }
+
+        SpawnObstacles();
+    }
+
+    private async UniTaskVoid SpawnObstacles()
     {
         foreach (var spawnGroup in spawnGroups)
         {
-            SpawnGroup(spawnGroup);
+            await SpawnGroup(spawnGroup);
+        }
+
+        if (staticBatch)
+        {
+            StaticBatchingUtility.Combine(batchRoot.gameObject);
         }
     }
 
-    private void SpawnGroup(EnvironmentSpawnGroup spawnGroup)
+    private async UniTask SpawnGroup(EnvironmentSpawnGroup spawnGroup)
     {
         for (var i = 0; i < spawnGroup.SpawnCount; i++)
         {
@@ -28,8 +57,16 @@ public class ObstaclePlacer : MonoBehaviour
             {
                 var obstacle = Instantiate(
                     spawnGroup.PotentialObstacles[Random.Range(0, spawnGroup.PotentialObstacles.Count)],
-                    transform);
+                    batchRoot);
                 obstacle.PlaceSelfWithRandomOrientation(location);
+                instanced++;
+            }
+
+            await UniTask.Yield(PlayerLoopTiming.PreUpdate);
+            await UniTask.Yield(PlayerLoopTiming.PreUpdate);
+            if (destroyCancellationToken.IsCancellationRequested)
+            {
+                return;
             }
         }
     }
@@ -49,8 +86,8 @@ public class ObstaclePlacer : MonoBehaviour
             return true;
         }
 
-        result = default;
-        return false;
+        result = checkPos;
+        return true;
     }
 
     private void OnDrawGizmos()

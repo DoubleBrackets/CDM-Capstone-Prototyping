@@ -62,6 +62,15 @@ public partial class @HoverbikeActionMap: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Boost"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""c2ade04a-f147-4de8-a569-a98aaacafff9"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -108,6 +117,17 @@ public partial class @HoverbikeActionMap: IInputActionCollection2, IDisposable
                     ""action"": ""Deaccelerate"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0b957d6f-c168-43bb-86ac-eb6980b0951d"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Controller"",
+                    ""action"": ""Boost"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -132,6 +152,7 @@ public partial class @HoverbikeActionMap: IInputActionCollection2, IDisposable
         m_Gameplay_Look = m_Gameplay.FindAction("Look", throwIfNotFound: true);
         m_Gameplay_Accelerate = m_Gameplay.FindAction("Accelerate", throwIfNotFound: true);
         m_Gameplay_Deaccelerate = m_Gameplay.FindAction("Deaccelerate", throwIfNotFound: true);
+        m_Gameplay_Boost = m_Gameplay.FindAction("Boost", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -197,6 +218,7 @@ public partial class @HoverbikeActionMap: IInputActionCollection2, IDisposable
     private readonly InputAction m_Gameplay_Look;
     private readonly InputAction m_Gameplay_Accelerate;
     private readonly InputAction m_Gameplay_Deaccelerate;
+    private readonly InputAction m_Gameplay_Boost;
     public struct GameplayActions
     {
         private @HoverbikeActionMap m_Wrapper;
@@ -205,6 +227,7 @@ public partial class @HoverbikeActionMap: IInputActionCollection2, IDisposable
         public InputAction @Look => m_Wrapper.m_Gameplay_Look;
         public InputAction @Accelerate => m_Wrapper.m_Gameplay_Accelerate;
         public InputAction @Deaccelerate => m_Wrapper.m_Gameplay_Deaccelerate;
+        public InputAction @Boost => m_Wrapper.m_Gameplay_Boost;
         public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -226,6 +249,9 @@ public partial class @HoverbikeActionMap: IInputActionCollection2, IDisposable
             @Deaccelerate.started += instance.OnDeaccelerate;
             @Deaccelerate.performed += instance.OnDeaccelerate;
             @Deaccelerate.canceled += instance.OnDeaccelerate;
+            @Boost.started += instance.OnBoost;
+            @Boost.performed += instance.OnBoost;
+            @Boost.canceled += instance.OnBoost;
         }
 
         private void UnregisterCallbacks(IGameplayActions instance)
@@ -242,6 +268,9 @@ public partial class @HoverbikeActionMap: IInputActionCollection2, IDisposable
             @Deaccelerate.started -= instance.OnDeaccelerate;
             @Deaccelerate.performed -= instance.OnDeaccelerate;
             @Deaccelerate.canceled -= instance.OnDeaccelerate;
+            @Boost.started -= instance.OnBoost;
+            @Boost.performed -= instance.OnBoost;
+            @Boost.canceled -= instance.OnBoost;
         }
 
         public void RemoveCallbacks(IGameplayActions instance)
@@ -274,5 +303,6 @@ public partial class @HoverbikeActionMap: IInputActionCollection2, IDisposable
         void OnLook(InputAction.CallbackContext context);
         void OnAccelerate(InputAction.CallbackContext context);
         void OnDeaccelerate(InputAction.CallbackContext context);
+        void OnBoost(InputAction.CallbackContext context);
     }
 }

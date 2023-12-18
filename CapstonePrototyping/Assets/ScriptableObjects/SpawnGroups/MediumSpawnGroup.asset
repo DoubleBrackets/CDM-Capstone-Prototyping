@@ -13,5 +13,8 @@ MonoBehaviour:
   m_Name: MediumSpawnGroup
   m_EditorClassIdentifier: 
   <PotentialObstacles>k__BackingField:
+  - {fileID: 3108184447770919761, guid: 823903dbbe7f2884889d63d3a7a5c658, type: 3}
   - {fileID: 8522907401108411870, guid: 5e7b3b206eebf724295354df9e4a02bd, type: 3}
-  <SpawnCount>k__BackingField: 25
+  - {fileID: 6948699652250245540, guid: bc3b5517194000d48853574fbbd82c5c, type: 3}
+  - {fileID: 2624971953844855438, guid: 4dbb0eb1339344242aafa7694d47cb22, type: 3}
+  <SpawnCount>k__BackingField: 120
