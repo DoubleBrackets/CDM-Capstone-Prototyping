@@ -19,6 +19,7 @@ public class Beacon : MonoBehaviour
 
     private void Awake()
     {
+        count = 0;
         UpdateText();
         SpawnRandomly();
     }

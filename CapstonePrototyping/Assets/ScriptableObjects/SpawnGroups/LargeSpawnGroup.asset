@@ -14,4 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <PotentialObstacles>k__BackingField:
   - {fileID: 2584041554592489991, guid: 7a6ad2fe51e7baa4f940a9849e3e0d0a, type: 3}
-  <SpawnCount>k__BackingField: 5
+  - {fileID: 994422062881069092, guid: a5737143f076514478466e5306394dc0, type: 3}
+  <SpawnCount>k__BackingField: 20

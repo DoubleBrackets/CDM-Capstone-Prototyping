@@ -13,5 +13,12 @@ MonoBehaviour:
   m_Name: SmallSpawnGroup
   m_EditorClassIdentifier: 
   <PotentialObstacles>k__BackingField:
+  - {fileID: 2133499710985903558, guid: 39d568ad0764e0a4aa4e2c950cd0cc24, type: 3}
+  - {fileID: 9142790119197206519, guid: 18807ec015cad45499d08d5647f1349b, type: 3}
+  - {fileID: 7836024721216887304, guid: 448eead653599724e82a40a4e0fa2b0e, type: 3}
   - {fileID: 3044131211395632500, guid: cd76377cc2f5816419965f7dfea5aa72, type: 3}
-  <SpawnCount>k__BackingField: 50
+  - {fileID: 4751661014122268902, guid: dbade50a4b8fdf44faf2d8190fe2905c, type: 3}
+  - {fileID: 5788556708286468960, guid: d19d732d1d112c54182d747f5343ceb4, type: 3}
+  - {fileID: 1633686917385861459, guid: d9acf22c69407474d88541f8691b5576, type: 3}
+  - {fileID: 7210287229176941054, guid: 6e460408fbebd7f41abbb309cc141cd3, type: 3}
+  <SpawnCount>k__BackingField: 450

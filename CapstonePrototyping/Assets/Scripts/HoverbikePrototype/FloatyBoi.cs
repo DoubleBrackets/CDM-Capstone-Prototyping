@@ -54,6 +54,11 @@ public class FloatyBoi : MonoBehaviour
     [SerializeField]
     private SphereCollider caster;
 
+    [Header("Boost"), SerializeField]
+    private float boostVelocity;
+
+    [SerializeField] private ParticleSystem boostParticles;
+
     [Header("Camera"), SerializeField]
     private List<CinemachineVirtualCamera> cameras;
 
@@ -64,9 +69,6 @@ public class FloatyBoi : MonoBehaviour
     private Vector3 bitangent;
     private bool isAirborne;
     private float currentHoverHeight;
-
-    private bool isParkMode;
-
 
     // 0 to 1
     public float Gear { get; private set; }
@@ -240,5 +242,16 @@ public class FloatyBoi : MonoBehaviour
 
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(caster.bounds.center + Vector3.down * fullStabilizeHeightThreshold, 0.3f);
+    }
+
+    public void PerformBoost()
+    {
+        var additionalVel = Quaternion.LookRotation(transform.forward, Vector3.up)
+                            * new Vector3(0, 0, 1)
+                            * boostVelocity;
+
+        rb.velocity += additionalVel;
+
+        boostParticles.Play();
     }
 }

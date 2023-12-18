@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -7,6 +8,9 @@ public class HoverbikeInputProvider : InputProvider, HoverbikeActionMap.IGamepla
     public Vector2 lookInput;
     public bool accelerateInput;
     public bool deaccelerateInput;
+    public bool boostInput;
+
+    public event Action OnBoostDown;
 
     protected override IInputActionCollection CreateMap() => new HoverbikeActionMap();
 
@@ -33,5 +37,14 @@ public class HoverbikeInputProvider : InputProvider, HoverbikeActionMap.IGamepla
     public void OnDeaccelerate(InputAction.CallbackContext context)
     {
         deaccelerateInput = context.ReadValueAsButton();
+    }
+
+    public void OnBoost(InputAction.CallbackContext context)
+    {
+        boostInput = context.ReadValueAsButton();
+        if (context.performed)
+        {
+            OnBoostDown?.Invoke();
+        }
     }
 }

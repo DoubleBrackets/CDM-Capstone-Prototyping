@@ -1,4 +1,3 @@
-using System;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -14,6 +13,9 @@ public class TerrainGenerator : MonoBehaviour
     private TerrainCollider terrainCollider;
 
     [TabGroup("Generation"), SerializeField]
+    private bool generateOnAwake;
+
+    [TabGroup("Generation"), SerializeField]
     private float frequency;
 
     [TabGroup("Generation"), SerializeField]
@@ -25,6 +27,9 @@ public class TerrainGenerator : MonoBehaviour
     [TabGroup("Generation"), SerializeField]
     private float canyonThreshold;
 
+    [TabGroup("Generation"), SerializeField]
+    private int seed;
+
     private float[,] targetHeightArray;
     private float[,] currentHeightArray;
     private float[,] prevHeightArray;
@@ -34,15 +39,12 @@ public class TerrainGenerator : MonoBehaviour
 
     private float lastGenTime;
 
-    private void FixedUpdate()
-    {
-        terrainCollider.enabled = false;
-        terrainCollider.enabled = true;
-    }
-
     private void Awake()
     {
-        GenerateTerrain();
+        if (generateOnAwake)
+        {
+            GenerateTerrain();
+        }
     }
 
     [Button("Generate New Terrain")]
@@ -90,10 +92,10 @@ public class TerrainGenerator : MonoBehaviour
 
     private void GenerateNewHeights(ref float[,] heightArray, int resolution, float width, float length, float height, float amplitude, float frequency)
     {
-        var baseNoise = new FastNoiseLite(DateTime.Now.Millisecond);
+        var baseNoise = new FastNoiseLite(seed);
         baseNoise.SetNoiseType(FastNoiseLite.NoiseType.Perlin);
 
-        var canyonNoise = new FastNoiseLite(DateTime.Now.Millisecond);
+        var canyonNoise = new FastNoiseLite(seed + 1);
         canyonNoise.SetNoiseType(FastNoiseLite.NoiseType.OpenSimplex2);
         canyonNoise.SetFrequency(0.029f);
         canyonNoise.SetFractalType(FastNoiseLite.FractalType.Ridged);
@@ -102,7 +104,7 @@ public class TerrainGenerator : MonoBehaviour
         canyonNoise.SetFractalWeightedStrength(0.14f);
         canyonNoise.SetFractalLacunarity(0.2f);
 
-        var canyonBiomeNoise = new FastNoiseLite(DateTime.Now.Millisecond + 1);
+        var canyonBiomeNoise = new FastNoiseLite(seed + 2);
         canyonBiomeNoise.SetNoiseType(FastNoiseLite.NoiseType.OpenSimplex2);
         canyonBiomeNoise.SetFrequency(0.001f);
 
